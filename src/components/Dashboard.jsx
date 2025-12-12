@@ -458,11 +458,11 @@ const Dashboard = ({ data, summary }) => {
                             <TrendingUp size={18} className="text-cyan" /> Cost Overview
                         </h3>
                         {/* VIEW DROPDOWN */}
-                        <div className="relative">
+                        <div className="chart-view-select-wrapper">
                             <select
                                 value={costView}
                                 onChange={(e) => setCostView(e.target.value)}
-                                className="appearance-none bg-[#0A0F16] border border-[var(--border-subtle)] text-xs text-secondary rounded-lg px-3 py-1 pr-8 outline-none focus:border-cyan-500 cursor-pointer hover:text-white transition-colors"
+                                className="chart-view-select"
                             >
                                 <option value="all">Full Overview</option>
                                 <option value="CTC">Total CTC</option>
@@ -470,7 +470,7 @@ const Dashboard = ({ data, summary }) => {
                                 <option value="Bonus">Bonus Only</option>
                                 <option value="Taxes">Taxes Only</option>
                             </select>
-                            <Calendar size={12} className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted pointer-events-none" />
+                            <Calendar size={12} className="select-icon" />
                         </div>
                     </div>
 
@@ -493,10 +493,10 @@ const Dashboard = ({ data, summary }) => {
                         />
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* CHART ROW 2: BONUS & RISK */}
-            <div className="dashboard-grid" style={{ minHeight: '300px' }}>
+            < div className="dashboard-grid" style={{ minHeight: '300px' }}>
                 <div className="card grid-span-2 flex-col">
                     <h3 className="flex items-center gap-2 mb-4 text-white">
                         <Gift size={18} className="text-[var(--neon-purple)]" /> Bonus Distribution
@@ -523,10 +523,10 @@ const Dashboard = ({ data, summary }) => {
                         />
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* AI ANALYTICS FOOTER */}
-            <div className="insight-section">
+            < div className="insight-section" >
                 <h3 className="flex items-center gap-2 mb-6 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[var(--neon-cyan)] to-[var(--neon-purple)]">
                     <Sparkles size={24} className="text-cyan fill-cyan" /> AI Workforce Diagnostics
                 </h3>
@@ -579,7 +579,7 @@ const Dashboard = ({ data, summary }) => {
                         })}
                     />
                 </div>
-            </div>
+            </div >
 
             <DetailExplorer
                 isOpen={detailOpen}
@@ -587,7 +587,7 @@ const Dashboard = ({ data, summary }) => {
                 filters={activeFilters}
                 allRecords={data}
             />
-        </div>
+        </div >
     );
 };
 
