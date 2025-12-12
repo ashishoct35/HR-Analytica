@@ -33,7 +33,7 @@ export const MonthlyTrendChart = ({ data, onClick, viewMode = 'all' }) => {
     const showAll = viewMode === 'all';
     return (
         <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data} onClick={(e) => onClick && e && onClick(e.activeLabel)}>
+            <LineChart data={data} margin={{ left: 20 }} onClick={(e) => onClick && e && e.activeLabel && onClick(e.activeLabel)}>
                 <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} vertical={false} />
                 <XAxis dataKey="name" stroke={THEME.text} tick={{ fill: THEME.text }} />
                 <YAxis stroke={THEME.text} tick={{ fill: THEME.text }} />
@@ -54,7 +54,7 @@ export const MonthlyTrendChart = ({ data, onClick, viewMode = 'all' }) => {
 
 export const DepartmentCostChart = ({ data, onClick }) => (
     <ResponsiveContainer width="100%" height={300}>
-        <AreaChart data={data} onClick={(e) => onClick && e && onClick(e.activeLabel)}>
+        <AreaChart data={data} margin={{ left: 20 }} onClick={(e) => onClick && e && e.activeLabel && onClick(e.activeLabel)}>
             <defs>
                 <linearGradient id="colorCost" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor={THEME.cyan} stopOpacity={0.3} />
@@ -72,7 +72,7 @@ export const DepartmentCostChart = ({ data, onClick }) => (
 
 export const HeadcountTrendChart = ({ data, onClick }) => (
     <ResponsiveContainer width="100%" height={250}>
-        <BarChart data={data} onClick={(e) => onClick && e && onClick(e.activeLabel)}>
+        <BarChart data={data} margin={{ left: 10 }} onClick={(e) => onClick && e && e.activeLabel && onClick(e.activeLabel)}>
             <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} vertical={false} />
             <XAxis dataKey="name" stroke={THEME.text} />
             <YAxis stroke={THEME.text} />
@@ -88,7 +88,7 @@ export const RiskScoreBubble = ({ data, onClick }) => (
     // Recharts Scatter plot is best for bubbles, but simplified as a Bar for robustness here if data shapes vary.
     // Using a Bar Chart colored by severity for simplicity in this MVP pass.
     <ResponsiveContainer width="100%" height={250}>
-        <BarChart data={data} layout="vertical" onClick={(e) => onClick && e && onClick(e.activeLabel)}>
+        <BarChart data={data} layout="vertical" margin={{ left: 10, right: 30 }} onClick={(e) => onClick && e && e.activeLabel && onClick(e.activeLabel)}>
             <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} horizontal={false} />
             <XAxis type="number" stroke={THEME.text} />
             <YAxis dataKey="name" type="category" stroke={THEME.text} width={100} />
