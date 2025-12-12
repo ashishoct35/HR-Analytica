@@ -232,6 +232,7 @@ const BonusChart = ({ data, onClick }) => (
 const Dashboard = ({ data, summary }) => {
     const [activeFilters, setActiveFilters] = useState({});
     const [detailOpen, setDetailOpen] = useState(false);
+    const [costView, setCostView] = useState('all'); // NEW: View State
 
     // 1. STATE: Selected Months (Array)
     const allMonths = useMemo(() => Array.from(new Set(data.map(r => r.MonthStr))), [data]);
@@ -451,14 +452,33 @@ const Dashboard = ({ data, summary }) => {
 
             {/* CHART ROW 1: COST & DEPT */}
             <div className="dashboard-grid" style={{ minHeight: '350px' }}>
-                <div className="card grid-span-2 flex-col">
-                    <h3 className="flex items-center gap-2 mb-4 text-white">
-                        <TrendingUp size={18} className="text-cyan" /> Cost Overview
-                    </h3>
+                <div className="card grid-span-2 flex-col relative">
+                    <div className="flex items-center justify-between mb-4">
+                        <h3 className="flex items-center gap-2 text-white">
+                            <TrendingUp size={18} className="text-cyan" /> Cost Overview
+                        </h3>
+                        {/* VIEW DROPDOWN */}
+                        <div className="relative">
+                            <select
+                                value={costView}
+                                onChange={(e) => setCostView(e.target.value)}
+                                className="appearance-none bg-[#0A0F16] border border-[var(--border-subtle)] text-xs text-secondary rounded-lg px-3 py-1 pr-8 outline-none focus:border-cyan-500 cursor-pointer hover:text-white transition-colors"
+                            >
+                                <option value="all">Full Overview</option>
+                                <option value="CTC">Total CTC</option>
+                                <option value="Basic">Basic Salary</option>
+                                <option value="Bonus">Bonus Only</option>
+                                <option value="Taxes">Taxes Only</option>
+                            </select>
+                            <Calendar size={12} className="absolute right-2 top-1/2 transform -translate-y-1/2 text-muted pointer-events-none" />
+                        </div>
+                    </div>
+
                     <div className="w-full flex-1">
                         <MonthlyTrendChart
                             data={analysis.charts.monthlyTrend}
                             onClick={(label) => openDetail({ month: label })}
+                            viewMode={costView}
                         />
                     </div>
                 </div>

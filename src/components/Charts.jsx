@@ -29,21 +29,28 @@ const CustomTooltip = ({ active, payload, label }) => {
     return null;
 };
 
-export const MonthlyTrendChart = ({ data, onClick }) => (
-    <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data} onClick={(e) => onClick && e && onClick(e.activeLabel)}>
-            <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} vertical={false} />
-            <XAxis dataKey="name" stroke={THEME.text} tick={{ fill: THEME.text }} />
-            <YAxis stroke={THEME.text} tick={{ fill: THEME.text }} />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-            <Line type="monotone" dataKey="CTC" stroke={THEME.green} strokeWidth={3} dot={{ r: 4, fill: THEME.green }} name="Total CTC" />
-            <Line type="monotone" dataKey="Basic" stroke={THEME.cyan} strokeWidth={2} name="Basic Salary" />
-            <Line type="monotone" dataKey="Bonus" stroke={THEME.purple} strokeWidth={2} name="Bonus" />
-            <Line type="monotone" dataKey="Taxes" stroke={THEME.red} strokeWidth={2} strokeDasharray="5 5" name="Taxes" />
-        </LineChart>
-    </ResponsiveContainer>
-);
+export const MonthlyTrendChart = ({ data, onClick, viewMode = 'all' }) => {
+    const showAll = viewMode === 'all';
+    return (
+        <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={data} onClick={(e) => onClick && e && onClick(e.activeLabel)}>
+                <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} vertical={false} />
+                <XAxis dataKey="name" stroke={THEME.text} tick={{ fill: THEME.text }} />
+                <YAxis stroke={THEME.text} tick={{ fill: THEME.text }} />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                {(showAll || viewMode === 'CTC') &&
+                    <Line type="monotone" dataKey="CTC" stroke={THEME.green} strokeWidth={3} dot={{ r: 4, fill: THEME.green }} name="Total CTC" />}
+                {(showAll || viewMode === 'Basic') &&
+                    <Line type="monotone" dataKey="Basic" stroke={THEME.cyan} strokeWidth={2} name="Basic Salary" />}
+                {(showAll || viewMode === 'Bonus') &&
+                    <Line type="monotone" dataKey="Bonus" stroke={THEME.purple} strokeWidth={2} name="Bonus" />}
+                {(showAll || viewMode === 'Taxes') &&
+                    <Line type="monotone" dataKey="Taxes" stroke={THEME.red} strokeWidth={2} strokeDasharray="5 5" name="Taxes" />}
+            </LineChart>
+        </ResponsiveContainer>
+    );
+};
 
 export const DepartmentCostChart = ({ data, onClick }) => (
     <ResponsiveContainer width="100%" height={300}>
