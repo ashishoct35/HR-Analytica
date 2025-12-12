@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { CURRENCY } from '../config';
 import './PeriodSelector.css';
 import {
     Users, DollarSign, TrendingUp, UserMinus, UserPlus, PieChart,
@@ -369,7 +370,7 @@ const Dashboard = ({ data, summary }) => {
             charts: { monthlyTrend, deptCostData, deptBonusData },
             ai: {
                 stagnant: stagnantEmployees,
-                topEarners: topEarners.map(r => ({ label: r.Name, value: `$${r.Amount.toLocaleString()}` })),
+                topEarners: topEarners.map(r => ({ label: r.Name, value: `${CURRENCY}${r.Amount.toLocaleString()}` })),
                 riskyDepts,
                 excessiveLeave
             },
@@ -405,7 +406,7 @@ const Dashboard = ({ data, summary }) => {
             <div className="kpi-grid">
                 <KPICard
                     title="Total Payroll Cost"
-                    value={`$ ${(analysis.snapshot.totalCost / 1000).toFixed(1)}k`}
+                    value={`${CURRENCY} ${(analysis.snapshot.totalCost / 1000).toFixed(1)}k`}
                     subtext={`Gross for ${analysis.displayPeriod}`}
                     trend={analysis.snapshot.costTrend}
                     icon={DollarSign}
