@@ -1,0 +1,51 @@
+/* --- CUSTOM SELECT DROPDOWN --- */
+.chart-view-select-wrapper {
+    position: relative;
+    display: inline-block;
+    min-width: 140px;
+}
+
+.chart-view-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: rgba(15, 19, 28, 0.8);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    /* Right padding for icon */
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+    font-family: inherit;
+    outline: none;
+}
+
+.chart-view-select:hover {
+    color: #fff;
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 247, 255, 0.1);
+}
+
+.chart-view-select:focus {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
+}
+
+.chart-view-select option {
+    background-color: #0F131C;
+    color: var(--text-secondary);
+    padding: 8px;
+}
+
+.select-icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-muted);
+}
