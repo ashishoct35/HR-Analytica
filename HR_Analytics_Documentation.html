@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Analytica - System Documentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background: #fff;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            color: #111;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 40px;
+            color: #2c3e50;
+            border-left: 5px solid #00F7FF;
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin-top: 25px;
+            color: #444;
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        ul {
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+
+        .highlight-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .print-hint {
+            display: none;
+            background: #ffecb3;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #ffe082;
+        }
+
+        @media print {
+            body { padding: 0; max-width: 100%; }
+            .print-btn, .print-hint { display: none; }
+            a { text-decoration: none; color: #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">🖨️ Save as PDF</button>
+
+    <div class="print-hint">
+        <strong>Tip:</strong> Click the "Save as PDF" button (or Ctrl+P) to save this document as a PDF file.
+    </div>
+
+    <h1>HR Analytica: System Documentation</h1>
+
+    <p>This document provides a comprehensive guide to understanding the data structure, calculations, and visualizations within the HR Analytica Dashboard.</p>
+
+    <!-- SECTION 1 -->
+    <h2>1. Data Source (Excel Template)</h2>
+    <p>The system is powered by a standard Excel <code>.xlsx</code> file. The intelligence engine automatically parses, groups, and analyzes the data based on specific formatting rules.</p>
+    
+    <div class="highlight-box">
+        <strong>Structure Rules:</strong>
+        <ul>
+            <li><strong>Tabs (Sheets):</strong> Each Excel sheet represents one month.</li>
+            <li><strong>Naming:</strong> Sheet names must contain a date (e.g., <code>Jan 2024</code>, <code>Oct-23</code>). The system sorts them chronologically.</li>
+            <li><strong>Columns:</strong> Standardized headers are required for accurate analysis.</li>
+        </ul>
+    </div>
+
+    <h3>Required Columns</h3>
+    <table>
+        <tr>
+            <th>Column Name</th>
+            <th>Description</th>
+            <th>Usage</th>
+        </tr>
+        <tr>
+            <td><code>Employee ID</code></td>
+            <td>Unique numeric/string ID</td>
+            <td>Tracking individual history across months (Joiners/Exits).</td>
+        </tr>
+        <tr>
+            <td><code>Basic Salary</code></td>
+            <td>Base pay amount</td>
+            <td>Calculates <em>Salary Growth</em> (increments) and <em>Stagnation</em>.</td>
+        </tr>
+        <tr>
+            <td><code>Total Salary</code></td>
+            <td>Gross Monthly Salary</td>
+            <td>Primary metric for <em>Total Cost</em> analysis.</td>
+        </tr>
+        <tr>
+            <td><code>Department</code></td>
+            <td>Team/Dept Name</td>
+            <td>Grouping for <em>Department Spend</em> and <em>Risk Analysis</em>.</td>
+        </tr>
+        <tr>
+            <td><code>Bonus</code></td>
+            <td>Incentive/Bonus Amount</td>
+            <td>Populates the <em>Bonus Distribution</em> chart.</td>
+        </tr>
+        <tr>
+            <td><code>Taxes</code></td>
+            <td>Tax Deductions</td>
+            <td>Used in the <em>Cost Overview</em> breakdown.</td>
+        </tr>
+        <tr>
+            <td><code>Leave Taken</code></td>
+            <td>Days of leave in month</td>
+            <td>Used to calculate <em>Risk Scores</em> and find <em>Leave Outliers</em>.</td>
+        </tr>
+    </table>
+
+    <!-- SECTION 2 -->
+    <h2>2. Logic & Calculations</h2>
+    <p>The dashboard processes data in real-time. Below is the logic governing each metric.</p>
+
+    <h3>KPI Cards (Top Row)</h3>
+    <ul>
+        <li><strong>Total Payroll Cost:</strong> Sum of <code>Total Salary</code> for all records in the selected timeframe.
+            <br><em>Trend Calculation:</em> Compares current total vs. previous period. <span style="color:red">Red</span> indicates cost increase.
+        </li>
+        <li><strong>Latest Headcount:</strong> Count of employees with <code>Status: Active</code> in the most recent selected month.
+            <br><em>Trend Calculation:</em> Growth vs. previous month. <span style="color:green">Green</span> indicates growth.
+        </li>
+        <li><strong>New Joiners:</strong> 
+            <br><em>Logic:</em> An employee is a "Joiner" if their <code>Employee ID</code> appears in the current month but was <strong>absent</strong> in the immediate prior month.
+        </li>
+        <li><strong>Attrition (Exits):</strong> 
+            <br><em>Logic:</em> An employee is an "Exit" if their <code>Employee ID</code> existed in the prior month but is <strong>absent</strong> in the current month.
+        </li>
+        <li><strong>Salary Growth:</strong> 
+            <br><em>Logic:</em> Count of employees where <code>Current Basic Salary > Previous Basic Salary</code>.
+        </li>
+    </ul>
+
+    <!-- SECTION 3 -->
+    <h2>3. Visualizations</h2>
+
+    <h3>Cost Overview (Chart)</h3>
+    <p>A line chart visualization of financial trends. Includes a dropdown to filter view modes:</p>
+    <ul>
+        <li><strong>Full Overview:</strong> Shows all cost lines.</li>
+        <li><strong>Total CTC:</strong> Cost to Company (Total Salary + Employer PF).</li>
+        <li><strong>Basic Salary:</strong> Base pay trends only.</li>
+        <li><strong>Taxes:</strong> Tax deduction trends.</li>
+    </ul>
+
+    <h3>Department Spend (Pie)</h3>
+    <p>A proportional breakdown of where the money is going. Useful for identifying heavy cost centers.</p>
+
+    <h3>AI Workforce Diagnostics</h3>
+    <p>The system runs algorithms to identify anomalies:</p>
+    <ul>
+        <li><strong>Stagnant Pay:</strong> Identifies employees who have not received a <code>Basic Salary</code> increase for 12+ months.</li>
+        <li><strong>Risk Departments:</strong> Depts where <code>Average Leave > Threshold</code> (typically 2 days/month avg).</li>
+        <li><strong>Top Earners:</strong> Employees with the highest cumulative <code>Total Salary</code> in the selected period.</li>
+    </ul>
+
+    <hr>
+    <p style="text-align: center; color: #999; margin-top: 50px; font-size: 0.8rem;">Generated by HR Analytica System • Confidential</p>
+
+</body>
+</html>

@@ -47,8 +47,15 @@ export const processExcelFile = async (file) => {
                     const jsonData = XLSX.utils.sheet_to_json(sheet);
 
                     jsonData.forEach(row => {
-                        const empId = row['Employee ID'] || row['ID'];
-                        if (!empId) return;
+                        const rawId = row['Employee ID'] || row['ID'];
+                        const name = row['Name'] || row['Employee Name'] || 'Unknown';
+
+                        // USER REQUEST: Use Name as the unique identifier if ID is blank.
+                        // Ideally, we prefer ID, but if blank, we MUST track by Name or else we lose the record.
+                        const empId = rawId ? String(rawId) : name;
+
+                        // Safety: If both are missing, we still can't track.
+                        if (!empId || empId === 'Unknown') return;
 
                         const dept = row['Department'] || row['Dept'] || 'Unassigned';
                         allDepartments.add(dept);
@@ -59,8 +66,8 @@ export const processExcelFile = async (file) => {
                         else if (leaveTaken >= 3) severity = 'Medium';
 
                         const record = {
-                            EmployeeID: String(empId),
-                            Name: row['Name'] || row['Employee Name'] || 'Unknown',
+                            EmployeeID: empId,
+                            Name: name,
                             Position: row['Position'] || row['Designation'],
                             Department: dept,
                             BasicSalary: parseMoney(row['Basic Salary']),
