@@ -489,7 +489,7 @@ const Dashboard = ({ data, summary }) => {
                     </h3>
                     <div className="w-full flex-1">
                         <DepartmentCostChart
-                            data={analysis.charts.deptCostData.map(d => ({ name: d.name, value: d.cost }))}
+                            data={analysis.charts.deptCostData.map(d => ({ name: d.name, value: d.cost, headcount: d.active }))}
                             onClick={(label) => openDetail({ dept: label })}
                         />
                     </div>
@@ -564,7 +564,8 @@ const Dashboard = ({ data, summary }) => {
                         icon={AlertTriangle}
                         colorClass="text-purple"
                         onClick={() => openDetail({
-                            dept: analysis.ai.riskyDepts.length > 0 ? analysis.ai.riskyDepts[0].label : undefined
+                            dept: analysis.ai.riskyDepts.length > 0 ? analysis.ai.riskyDepts[0].label : undefined,
+                            viewType: 'leaves'
                         })}
                     />
                     <InsightCard
@@ -576,7 +577,8 @@ const Dashboard = ({ data, summary }) => {
                             ids: analysis.ai.excessiveLeave.map(e => {
                                 const rec = data.find(r => r.Name === e.label);
                                 return rec ? rec.EmployeeID : null;
-                            }).filter(Boolean)
+                            }).filter(Boolean),
+                            viewType: 'leaves'
                         })}
                     />
                 </div>

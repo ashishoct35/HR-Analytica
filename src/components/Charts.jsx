@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    AreaChart, Area, BarChart, Bar, Legend, Cell
+    AreaChart, Area, BarChart, Bar, Legend, Cell, ComposedChart
 } from 'recharts';
 
 const THEME = {
@@ -54,7 +54,7 @@ export const MonthlyTrendChart = ({ data, onClick, viewMode = 'all' }) => {
 
 export const DepartmentCostChart = ({ data, onClick }) => (
     <ResponsiveContainer width="100%" height={300}>
-        <AreaChart data={data} margin={{ left: 20 }} onClick={(e) => onClick && e && e.activeLabel && onClick(e.activeLabel)}>
+        <ComposedChart data={data} margin={{ left: 20, right: 30 }} onClick={(e) => onClick && e && e.activeLabel && onClick(e.activeLabel)}>
             <defs>
                 <linearGradient id="colorCost" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor={THEME.cyan} stopOpacity={0.3} />
@@ -62,11 +62,49 @@ export const DepartmentCostChart = ({ data, onClick }) => (
                 </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke={THEME.grid} />
-            <XAxis dataKey="name" stroke={THEME.text} />
-            <YAxis stroke={THEME.text} />
+            <XAxis dataKey="name" stroke={THEME.text} tick={{ fontSize: 11 }} />
+
+            {/* Left Y-Axis for Cost */}
+            <YAxis
+                yAxisId="left"
+                stroke={THEME.cyan}
+                tick={{ fill: THEME.cyan, fontSize: 11 }}
+                label={{ value: 'Cost', angle: -90, position: 'insideLeft', fill: THEME.cyan, fontSize: 12 }}
+            />
+
+            {/* Right Y-Axis for Headcount */}
+            <YAxis
+                yAxisId="right"
+                orientation="right"
+                stroke={THEME.purple}
+                tick={{ fill: THEME.purple, fontSize: 11 }}
+                label={{ value: 'Headcount', angle: 90, position: 'insideRight', fill: THEME.purple, fontSize: 12 }}
+            />
+
             <Tooltip content={<CustomTooltip />} />
-            <Area type="monotone" dataKey="value" stroke={THEME.cyan} fillOpacity={1} fill="url(#colorCost)" name="Cost" />
-        </AreaChart>
+            <Legend />
+
+            {/* Area Chart for Cost */}
+            <Area
+                yAxisId="left"
+                type="monotone"
+                dataKey="value"
+                stroke={THEME.cyan}
+                fillOpacity={1}
+                fill="url(#colorCost)"
+                name="Cost"
+            />
+
+            {/* Bar Chart for Headcount */}
+            <Bar
+                yAxisId="right"
+                dataKey="headcount"
+                fill={THEME.purple}
+                name="Avg Headcount"
+                opacity={0.7}
+                radius={[4, 4, 0, 0]}
+            />
+        </ComposedChart>
     </ResponsiveContainer>
 );
 

@@ -91,7 +91,7 @@ export const processExcelFile = async (file) => {
                         if (record.TotalSalary === 0 && record.BasicSalary > 0) {
                             record.TotalSalary = record.BasicSalary + record.OtherAllowance + record.Bonus;
                         }
-                        record.CTC = record.TotalSalary + record.PFEmployer;
+                        record.CTC = record.TotalSalary;
 
                         monthMap.get(monthKey).records.push(record);
                         monthMap.get(monthKey).empIds.add(record.EmployeeID);
